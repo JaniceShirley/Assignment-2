@@ -1,0 +1,206 @@
+Question 11
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+    int *inventory;
+    int size = 10;
+    inventory = (int *)malloc(size * sizeof(int));
+    if (inventory == NULL) {
+        printf("Memory allocation failed\n");
+        return 1;
+    }
+    size = 20; // Increase inventory size to 20
+    inventory = (int *)realloc(inventory, size * sizeof(int));
+    if (inventory == NULL) {
+        printf("Memory reallocation failed\n");
+        return 1;
+    }
+    free(inventory);
+
+    return 0;
+}
+
+Question 12
+#include <stdio.h>
+int main() {
+    int weights[5];
+    int total_weight = 0; 
+    printf("Enter the weights of the 5 treasures:\n");
+
+    for(int i = 0; i < 5; i++) {
+        printf("Treasure %d: ", i + 1);
+        scanf("%d", &weights[i]);
+        total_weight += weights[i];
+    }
+    printf("Total weight collected: %d\n", total_weight);
+    return 0;
+}
+
+Question13
+#include <stdio.h>
+struct Square {
+    float area;
+};
+struct Rectangle {
+    float length;
+    float breadth;
+};
+struct Shape {
+    struct Square square;
+    struct Rectangle rectangle;
+};
+void calculateSquareArea(struct Shape *shape, float side) {
+    shape->square.area = side * side;
+}
+float calculateRectangleArea(struct Shape *shape) {
+    return shape->rectangle.length * shape->rectangle.breadth;
+}
+
+int main() {
+    struct Shape shape;
+    shape.rectangle.length = 5.0;
+    shape.rectangle.breadth = 3.0;
+    float rectangle_area = calculateRectangleArea(&shape);
+    printf("Rectangle Area: %.2f\n", rectangle_area
+    calculateSquareArea(&shape, 4.0);
+    printf("Square Area: %.2f\n", shape.square.area);
+
+    return 0;
+}
+
+Question 14
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STUDENTS 100 
+#define NAME_LENGTH 50  
+
+int main() {
+    char students[MAX_STUDENTS][NAME_LENGTH]; // Array to store the names of students
+    int count = 0; // Variable to keep track of the number of students
+
+    char name[NAME_LENGTH];
+    char choice;
+
+    printf("Student Assignment Submission List:\n");
+
+    do {
+        if (count >= MAX_STUDENTS) {
+            printf("The list is full, no more students can be added.\n");
+            break;
+        }
+        printf("Enter the name of the student who submitted the assignment: ");
+        fgets(name, NAME_LENGTH, stdin);
+        name[strcspn(name, "\n")] = 0;
+        strcpy(students[count], name);
+        count++;
+        printf("Do you want to add another student? (y/n): ");
+        scanf(" %c", &choice);
+        getchar(); // Consume the newline character left by scanf
+
+    } while (choice == 'y' || choice == 'Y');
+    printf("\nList of students who submitted their assignments:\n");
+    for (int i = 0; i < count; i++) {
+        printf("%d. %s\n", i + 1, students[i]);
+    }
+
+    return 0;
+}
+
+Question17
+#include <stdio.h>
+#include <string.h>
+struct Student {
+    int reg_no;
+    char name[50];
+    int age;
+    float cgpa;
+};
+
+int main() {
+    struct Student students[5]; 
+    int i;
+    int max_index = 0; 
+    for (i = 0; i < 5; i++) {
+        printf("Enter details for student %d:\n", i + 1);
+        printf("Register number: ");
+        scanf("%d", &students[i].reg_no);
+
+        printf("Name: ")
+        fgets(students[i].name, 50, stdin);
+        students[i].name[strcspn(students[i].name, "\n")] = '\0'; 
+
+        printf("Age: ");
+        scanf("%d", &students[i].age);
+
+        printf("CGPA: ");
+        scanf("%f", &students[i].cgpa);
+
+        printf("\n");
+    }
+}
+
+void findTopStudent(struct Student students[], int n) {
+    int topIndex = 0;
+    for(int i = 1; i < n; i++) {
+        if(students[i].cgpa > students[topIndex].cgpa) {
+            topIndex = i;
+        }
+    }
+    printf("The student with the highest CGPA is %s with a CGPA of %.2f\n", students[topIndex].name, students[topIndex].cgpa);
+}
+
+int main() {
+    int n = 5; // Number of students
+    struct Student students[n];
+    getInput(students, n);
+    findTopStudent(students, n);
+
+    return 0;
+}
+
+Question 18 a
+#include <stdio.h>
+#include <stdbool.h>
+bool isPrime(int num) {
+    if (num <= 1) {
+        return false;
+    }
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int countTwoDigitPrimes(int n) {
+    int count = 0;
+    int previous_digit = -1;
+    while (n > 0) {
+        int current_digit = n % 10;
+        
+        if (previous_digit != -1) {
+            int two_digit_number = previous_digit + current_digit * 10;
+            if (isPrime(two_digit_number)) {
+                count++;
+            }
+        }
+        
+        previous_digit = current_digit;
+        n /= 10;
+    }
+    
+    return count;
+}
+
+int main() {
+    int n;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    int result = countTwoDigitPrimes(n);
+    printf("Number of two-digit primes: %d\n", result);
+    
+    return 0;
+}
+​⬤
